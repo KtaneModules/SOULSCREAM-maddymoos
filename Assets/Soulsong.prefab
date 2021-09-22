@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 4854018168419574}
   - component: {fileID: 33443958531706670}
   - component: {fileID: 23533797045428030}
+  - component: {fileID: 114708454038961644}
   m_Layer: 0
   m_Name: NurbsCurve.002
   m_TagString: Untagged
@@ -3607,7 +3608,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114167397111788266
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3692,7 +3693,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114240094324044236
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3718,7 +3719,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114263905114673354
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3825,7 +3826,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114430628814359646
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -3985,8 +3986,8 @@ MonoBehaviour:
   m_Script: {fileID: -119419473, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ModuleType: soulscream
-  ModuleDisplayName: Soulscream
+  ModuleType: soulsong
+  ModuleDisplayName: Soulsong
   RequiresTimerVisibility: 0
 --- !u!114 &114525967303636430
 MonoBehaviour:
@@ -4000,7 +4001,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114541628842936972
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4139,6 +4140,19 @@ MonoBehaviour:
   m_Script: {fileID: 2144496390, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114708454038961644
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1335353991545932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1005838349, guid: 45b809be76fd7a3468b6f517bced6f28, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ShaderNames:
+  - Standard
 --- !u!114 &114715851553231316
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4173,7 +4187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114734201927692592
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4186,7 +4200,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114761174160984358
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4238,7 +4252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114878438905204124
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4325,7 +4339,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
 --- !u!114 &114951772165170288
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -4458,4 +4472,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShaderNames:
-  - Legacy Shaders/Transparent/Diffuse
+  - KT/Mobile/DiffuseTint
