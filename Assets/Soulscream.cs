@@ -17,17 +17,19 @@ public class Soulscream : MonoBehaviour {
 
 	public TextMesh[] Text;
 	public KMSelectable[] Screams;
-	private string[] ignoredModules = { "Soulscream", "OmegaForget", "14", " Brainf---", " Forget Enigma", " Forget Everything", " Forget It Not", " Forget Me Not", " Forget Me Later", " Forget Perspective", " Forget The Colors", " Forget Them All", " Forget This", " Forget Us Not", " Iconic", " Organization", " RPS Judging", " Simon Forgets", " Simon's Stages", " Souvenir", " Tallordered Keys", " The Twin", " The Very Annoying Button", " Ultimate Custom Night", "Übermodule" };
+	private string[] ignoredModules = { "Soulsong", "Soulscream", "OmegaForget", "14", " Brainf---", " Forget Enigma", " Forget Everything", " Forget It Not", " Forget Me Not", " Forget Me Later", " Forget Perspective", " Forget The Colors", " Forget Them All", " Forget This", " Forget Us Not", " Iconic", " Organization", " RPS Judging", " Simon Forgets", " Simon's Stages", " Souvenir", " Tallordered Keys", " The Twin", " The Very Annoying Button", " Ultimate Custom Night", "Übermodule" };
 	static private int _moduleIdCounter = 1;
 	private int _moduleId;
 
 	private string Answer, input;
 	private string[] StageStorage = new string[4];
 	private int Stage, Time, Solves, itsgonnabreakeverything;
-	private bool Active = true, counting, final;
+	private float solvepoints, pps = 2f;
+	private bool Active = true, counting, final, solved, pleasewait;
 
 	private static string SOULS = "-XAHUEOI";
-	private static string[] BINARY  = { "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001" };
+    private List<int> StageRecovery = new List<int>();
+	private static string[] BINARY = { "0000", "0001", "0010", "0011", "0100", "0101", "0110", "0111", "1000", "1001" };
 	private static string[] BINARY2 = { "000", "001", "010", "011", "100", "101", "110", "111" };
 
 	void Awake()
@@ -48,81 +50,91 @@ public class Soulscream : MonoBehaviour {
 		}
 	}
 	// Use this for initialization
-	void Start () {
+	void Start() {
 		GenerateStage();
 	}
-	
+
 	// Update is called once per frame
-	void Update () {
-		if(Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != Solves)
-        {
-			if (!Application.isEditor && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() != 0)
+	void Update() {
+		if (Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != Solves)
+		{
+			if (!Application.isEditor && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
 			{
 				if (Active)
 				{
-					Debug.LogFormat("[Soulscream #{0}]: Module Solved. 5 minutes.", _moduleId);
+					Debug.LogFormat("[Soulscream #{0}]: Module Solved. 2 minutes.", _moduleId);
 					Active = false;
-					StartCoroutine(AddTime(300, true));
+					StartCoroutine(AddTime(120, true));
 				}
 				else
 				{
-					StartCoroutine(AddTime(120, false));
-					Debug.LogFormat("[Soulscream #{0}]: Module Solved. Adding 2 minutes", _moduleId);
+					StartCoroutine(AddTime(30, false));
+					Debug.LogFormat("[Soulscream #{0}]: Module Solved. Adding 30 seconds.", _moduleId);
 				}
 				Solves++;
 			}
-            else
-            {
+			else
+			{
 				++Stage;
 				Solves++;
 				GenerateStage();
-            }
+			}
 
-        }
+		}
 	}
 	void HandlePress(KMSelectable btn)
-    {
+	{
 		int X = Array.IndexOf(Screams, btn);
 		Screams[X].AddInteractionPunch();
 		Audio.PlaySoundAtTransform("v", Screams[X].transform);
 		string temp = "";
 		char[] temptemp;
-        switch (X)
-        {
-            case 0: temp += "X"; break;
-            case 1: temp += "A"; break;
-            case 2: temp += "H"; break;
-            case 3: temp += "U"; break;
-            case 4: temp += "E"; break;
-            case 5: temp += "O"; break;
-            case 6: temp += "I"; break;
-        }
-		if (Answer[itsgonnabreakeverything].ToString() == temp && final)
+		if (!solved && !pleasewait)
 		{
-			temptemp = input.ToCharArray();
-			temptemp[itsgonnabreakeverything] = temp[0];
-			input = temptemp.Join("");
-			if (input.Length > 9)
+			switch (X)
 			{
-				Text[0].text = (itsgonnabreakeverything < 5 ? input.Substring(0, 10) : itsgonnabreakeverything + 5 < input.Length ? input.Substring(itsgonnabreakeverything - 5, 10) : input.Substring(input.Length - 10));
+				case 0: temp += "X"; break;
+				case 1: temp += "A"; break;
+				case 2: temp += "H"; break;
+				case 3: temp += "U"; break;
+				case 4: temp += "E"; break;
+				case 5: temp += "O"; break;
+				case 6: temp += "I"; break;
 			}
-			else
+			if (Answer[itsgonnabreakeverything].ToString() == temp && final)
 			{
-				Text[0].text = input;
+				temptemp = input.ToCharArray();
+				temptemp[itsgonnabreakeverything] = temp[0];
+				input = temptemp.Join("");
+				if (input.Length > 9)
+				{
+					Text[0].text = (itsgonnabreakeverything < 5 ? input.Substring(0, 10) : itsgonnabreakeverything + 5 < input.Length ? input.Substring(itsgonnabreakeverything - 5, 10) : input.Substring(input.Length - 10));
+				}
+				else
+				{
+					Text[0].text = input;
+				}
+				itsgonnabreakeverything++;
+				Text[1].text = "[" + (input.Length - itsgonnabreakeverything).ToString().PadLeft(3, '0') + "]";
+				if (Text[1].text == "[000]")
+				{
+					Module.HandlePass();
+					solved = true;
+					final = false;
+				}
 			}
-			itsgonnabreakeverything++;
-			Text[1].text = "["+ (input.Length - itsgonnabreakeverything).ToString().PadLeft(3, '0') + "]";
-			if(Text[1].text == "[000]")
+			else if (final)
+			{
+				Debug.LogFormat("[Soulscream #{0}]: You pressed {1} when I wanted {2}.", _moduleId, SOULS[X + 1], Answer[itsgonnabreakeverything]);
+				Module.HandleStrike();
+				StartCoroutine(RefreshStages());
+			}
+            else
             {
-				Module.HandlePass();
-				final = false;
-            }
+				Debug.LogFormat("[Soulscream #{0}]: Too early...", _moduleId);
+				Module.HandleStrike();
+			}
 		}
-        else
-        {
-			Debug.LogFormat("[Soulscream #{0}]: You pressed {1} when I wanted {2}.", _moduleId, SOULS[X + 1], Answer[itsgonnabreakeverything]);
-			Module.HandleStrike();
-        }
 	}
 	void GenerateStage()
 	{
@@ -136,6 +148,7 @@ public class Soulscream : MonoBehaviour {
 				Text[0].text = StageStorage[0];
 				Text[1].text = "[" + (Stage < 100 ? "0" : "") + (Stage < 10 ? "0" : "") + Stage + "]";
 				//Generate a stage normally
+				solvepoints += pps;
 				StageStorage[1] = "";
 				StageStorage[2] = "";
 				for (int i = 0; i < 5; i++)
@@ -155,13 +168,14 @@ public class Soulscream : MonoBehaviour {
 			}
 			StageStorage[3] = StageStorage[2].Select(a => SOULS[int.Parse(a.ToString())]).Join("");
 			Debug.LogFormat("[Soulscream #{0}]: The displayed number for this stage is {1}.", _moduleId, StageStorage[0]);
+			StageRecovery.Add(int.Parse(StageStorage[0]));
 			Debug.LogFormat("[Soulscream #{0}]: The scream for stage {1} is {2}.", _moduleId, Stage, StageStorage[3]);
 			Answer += StageStorage[3];
 
 
 		}
 		else
-        {
+		{
 			if (Solves != 0)
 			{
 				//Break and enter submission mode, the souls can be put to rest//
@@ -170,32 +184,34 @@ public class Soulscream : MonoBehaviour {
 				Text[0].text = "" + (Answer.Length < 10 ? "".PadRight(Answer.Length, '-') : "----------");
 				input = "-".PadRight(Answer.Length, '-');
 				Text[1].text = "[" + (input.Length - 0).ToString().PadLeft(3, '0') + "]";
+				final = true;
+
 			}
-            else
-            {
+			else
+			{
 				Debug.LogFormat("[Soulscream #{0}]: Unable to generate stages :pensive:.", _moduleId);
 				Module.HandlePass();
 			}
 		}
 	}
 	IEnumerator Incinerate()
-    {
-		while (Time > 0 || Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() != 0)
+	{
+		while (Time > 0 && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
 		{
 			if (counting)
 			{
 				Text[0].text = Time / 60 + ":" + (Time % 60 < 10 ? "0" + (Time % 60).ToString() : (Time % 60).ToString());
 				yield return new WaitForSeconds(1f);
 				Time--;
-				if (Time <= 0)
+				if (Time <= 0 && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
 				{
 					Debug.LogFormat("[Soulscream #{0}]: Ring ring! Entering stage #{1}.", _moduleId, ++Stage);
 					GenerateStage();
 					Active = true;
 					Audio.PlaySoundAtTransform("a", Screams[3].transform);
 				}
-				else if (Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() == 0)
-                {
+				else if (Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() == 0)
+				{
 					Debug.LogFormat("[Soulscream #{0}]: Entering Finale...", _moduleId, ++Stage);
 					GenerateStage();
 					Active = true;
@@ -206,28 +222,39 @@ public class Soulscream : MonoBehaviour {
 			}
 			yield return null;
 		}
-    }
+	}
 	IEnumerator AddTime(int add, bool what)
-    {
+	{
 		Audio.PlaySoundAtTransform("download", Screams[3].transform);
 		int i = 0;
 		counting = false;
-        while (i < add && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() != 0)
-        {
+		while (i < add && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
+		{
 			i++;
 			Time++;
 			Text[0].text = Time / 60 + ":" + (Time % 60 < 10 ? "0" + (Time % 60).ToString() : (Time % 60).ToString());
 			yield return new WaitForSeconds(.02f);
-        }
-		if (what && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() != 0)
-        {
+		}
+		if (what && Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
+		{
 			StartCoroutine(Incinerate());
 			counting = true;
 		}
-        else if (Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Count() != 0)
-        {
+		else if (Bomb.GetSolvableModuleNames().Where(a => !ignoredModules.Contains(a)).Count() - Bomb.GetSolvedModuleNames().Where(a => !ignoredModules.Contains(a)).Count() != 0)
+		{
 			counting = true;
-        }
+		}
+	}
+	IEnumerator RefreshStages()
+    {
+		pleasewait = true;
+		for(int i = 0; i < StageRecovery.Count; i++)
+        {
+			Text[1].text = StageRecovery[i].ToString();
+			yield return new WaitForSeconds(2);
+		}
+		pleasewait = false;
+		Text[1].text = "[" + (input.Length - itsgonnabreakeverything).ToString().PadLeft(3, '0') + "]";
 	}
 #pragma warning disable 414
 	private readonly string TwitchHelpMessage = @"!{0} press AOOI (Presses the scream-quence AOOI)";
@@ -253,25 +280,32 @@ public class Soulscream : MonoBehaviour {
 			{
 				yield return "sendtochaterror Invalid letter. Valid letters are A, I, E, O, U, X, and H.";
 			}
-		else
-		{
-			yield return null;
-			yield return "solve";
-			for (int i = 0; i < stupid.Length; i++)
-			{
-				Screams[Array.IndexOf(SOULS.ToArray(), stupid[i]) - 1].OnInteract();
-				yield return new WaitForSeconds(0.1f);
+			else if (pleasewait)
+            {
+				yield return "sendtochaterror Module has struck, please wait.";
 			}
-		}
+			else
+			{
+				yield return null;
+				yield return "solve";
+				yield return "awardpointsonsolve " + solvepoints;
+				for (int i = 0; i < stupid.Length; i++)
+				{
+					Screams[Array.IndexOf(SOULS.ToArray(), stupid[i]) - 1].OnInteract();
+					yield return new WaitForSeconds(0.1f);
+				}
+			}
 		}
 		else
 			yield return "sendtochaterror Incorrect Syntax. Use '!{1} press X'.";
 	}
 	IEnumerator TwitchHandleForcedSolve()
 	{
-		while (!final) //Wait until submission time
+		while (!final)
+		{ //Wait until submission time
 			yield return true;
-		for (int i = 0; i < Answer.Length; i++)
+		}
+		for (int i = input.Length; i < Answer.Length; i++)
 		{
 			Screams[Array.IndexOf(SOULS.ToArray(), Answer[i]) - 1].OnInteract();
 			yield return new WaitForSeconds(0.05f);

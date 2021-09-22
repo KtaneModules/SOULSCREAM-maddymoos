@@ -69,6 +69,7 @@
      <Compile Include="Assets\Scripts\PrivateWhenPlayingAttribute.cs" />
      <Compile Include="Assets\Scripts\ReadOnlyWhenPlayingAttribute.cs" />
      <Compile Include="Assets\Soulscream.cs" />
+     <Compile Include="Assets\Soulsong.cs" />
      <Compile Include="Assets\TestHarness\EdgeworkConfiguration.cs" />
      <Compile Include="Assets\TestHarness\NeedyTimer.cs" />
      <Compile Include="Assets\TestHarness\SevenSegDisplay.cs" />
