@@ -171,7 +171,10 @@ public class Soulsong : MonoBehaviour {
 			StageRecovery.Add(int.Parse(StageStorage[0]));
 			Debug.LogFormat("[Soulsong #{0}]: The answer for stage {1} is {2}.", _moduleId, Stage, StageStorage[0]);
 			Answer += StageStorage[0];
-
+			for(int i=0; i<5; i++)
+            {
+				StageStorage[i] = "";
+            }
 
 		}
 		else
@@ -300,7 +303,7 @@ public class Soulsong : MonoBehaviour {
 	{
 		while (!final)
 		{ //Wait until submission time
-			yield return false;
+			yield return true;
 		}
 		for (int i = input.Length; i < Answer.Length; i++)
 		{

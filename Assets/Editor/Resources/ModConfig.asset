@@ -19,7 +19,7 @@ MonoBehaviour:
     2 minutes pass, and they continue screaming.
 
 
-    Module Id: soulscream'
-  version: 1.4
+    Module Id: soulscream, soulsong'
+  version: 2.2
   outputFolder: E:\Setam\steamapps\common\Keep Talking And Nobody Explodes\mods
-  previewImage: {fileID: 2800000, guid: 382b32f6dcb13f644bde1687a5780f2e, type: 3}
+  previewImage: {fileID: 2800000, guid: e6626d962828c044390083a050e2ccba, type: 3}
