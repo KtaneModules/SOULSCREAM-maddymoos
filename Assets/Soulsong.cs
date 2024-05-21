@@ -17,7 +17,7 @@ public class Soulsong : MonoBehaviour {
 
 	public TextMesh[] Text;
 	public KMSelectable[] Songs;
-	private string[] ignoredModules = { "Soulsong", "Soulscream", "OmegaForget", "14", " Brainf---", " Forget Enigma", " Forget Everything", " Forget It Not", " Forget Me Not", " Forget Me Later", " Forget Perspective", " Forget The Colors", " Forget Them All", " Forget This", " Forget Us Not", " Iconic", " Organization", " RPS Judging", " Simon Forgets", " Simon's Stages", " Souvenir", " Tallordered Keys", " The Twin", " The Very Annoying Button", " Ultimate Custom Night", "Übermodule" };
+	private string[] ignoredModules = { "Soulstrike", "Soulsong", "Soulscream", "OmegaForget", "14", " Brainf---", " Forget Enigma", " Forget Everything", " Forget It Not", " Forget Me Not", " Forget Me Later", " Forget Perspective", " Forget The Colors", " Forget Them All", " Forget This", " Forget Us Not", " Iconic", " Organization", " RPS Judging", " Simon Forgets", " Simon's Stages", " Souvenir", " Tallordered Keys", " The Twin", " The Very Annoying Button", " Ultimate Custom Night", "Übermodule" };
 	static private int _moduleIdCounter = 1;
 	private int _moduleId;
 
