@@ -301,14 +301,14 @@ public class Soulscream : MonoBehaviour {
 	}
 	IEnumerator TwitchHandleForcedSolve()
 	{
-		while (!final)
+		while (!final || pleasewait)
 		{ //Wait until submission time
 			yield return true;
 		}
-		for (int i = input.Length; i < Answer.Length; i++)
+		for (int i = itsgonnabreakeverything; i < Answer.Length; i++)
 		{
 			Screams[Array.IndexOf(SOULS.ToArray(), Answer[i]) - 1].OnInteract();
-			yield return new WaitForSeconds(0.05f);
+			yield return new WaitForSeconds(0.1f);
 		}
 	}
 }
